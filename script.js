@@ -37,14 +37,16 @@ showSlide(0);
 
 $$('[data-compare]').forEach(compare => {
   const range = $('input[type="range"]', compare);
-  const after = $('.after', compare);
   const line = $('.compare-line', compare);
+
   const update = () => {
-    const value = `${range.value}%`;
-    after.style.width = value;
-    line.style.left = value;
+    const value = Math.max(0, Math.min(100, Number(range.value)));
+    compare.style.setProperty('--compare-position', `${value}%`);
+    line.style.left = `${value}%`;
   };
+
   range.addEventListener('input', update);
+  range.addEventListener('change', update);
   update();
 });
 
